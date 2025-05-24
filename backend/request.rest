@@ -1,0 +1,11 @@
+POST http://localhost:5000/daftarhewan
+Content-Type: application/json 
+Authorization: Bearer <your_access_token>
+
+{
+"nama_hewan": "ayam", 
+"bobot_hewan": 15, 
+"keterangan_khusus": "makanan harus fresh", 
+"ras": "ayam petelur", 
+"gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
+}
