@@ -1,3 +1,14 @@
+POST http://localhost:5000/user
+Content-Type: application/json 
+Authorization: Bearer <your_access_token>
+
+{
+"username": "adminkyut123", 
+"password": "12345", 
+"keterangan_khusus": "makanan harus fresh", 
+}
+
+###
 POST http://localhost:5000/daftarhewan
 Content-Type: application/json 
 Authorization: Bearer <your_access_token>
@@ -32,5 +43,5 @@ Authorization: Bearer <your_access_token>
 "nama_pemilik": "dapid", 
 "no_hp": "08123456789", 
 "alamat": "sewon", 
-"email": "dapid@gmail.com", 
+"email": "dapid@gmail.com"
 }

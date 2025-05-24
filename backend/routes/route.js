@@ -1,5 +1,11 @@
 import express from "express";
 import {
+  Register,
+  Login,
+  refreshToken,
+  logout,
+} from "../controller/UserController.js";
+import {
   createHewan,
   getHewan,
   getHewanById,
@@ -15,6 +21,11 @@ import {
 } from "../controller/DaftarPemilikController.js";
 
 const router = express.Router();
+
+router.post("/register", Register);
+router.post("/login", Login);
+router.get("/token", refreshToken);
+router.delete("/logout", logout);
 
 router.get("/daftarhewan", getHewan); 
 router.get("/daftarhewan/:id", getHewanById); 

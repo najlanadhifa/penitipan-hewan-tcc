@@ -1,4 +1,5 @@
 import db from "../config/Database.js";
+import User from './UserModel.js';
 import DaftarHewan from "./DaftarHewanModel.js";
 import DaftarPemilik from "./DaftarPemilikModel.js";
 
@@ -14,4 +15,4 @@ import DaftarPemilik from "./DaftarPemilikModel.js";
   }
 })();
 
-export { DaftarHewan, DaftarPemilik };
+export { User, DaftarHewan, DaftarPemilik };
