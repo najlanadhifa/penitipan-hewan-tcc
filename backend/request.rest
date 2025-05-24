@@ -9,3 +9,28 @@ Authorization: Bearer <your_access_token>
 "ras": "ayam petelur", 
 "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
 }
+
+###
+PUT http://localhost:5000/daftarhewan/2
+Content-Type: application/json 
+Authorization: Bearer <your_access_token>
+
+{
+"nama_hewan": "si imhut", 
+"bobot_hewan": 15, 
+"keterangan_khusus": "suka nonton upin ipin", 
+"ras": "ayam malaysia", 
+"gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
+}
+
+###
+POST http://localhost:5000/daftarpemilik
+Content-Type: application/json 
+Authorization: Bearer <your_access_token>
+
+{
+"nama_pemilik": "dapid", 
+"no_hp": "08123456789", 
+"alamat": "sewon", 
+"email": "dapid@gmail.com", 
+}

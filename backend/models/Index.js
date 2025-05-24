@@ -1,5 +1,6 @@
 import db from "../config/Database.js";
 import DaftarHewan from "./DaftarHewanModel.js";
+import DaftarPemilik from "./DaftarPemilikModel.js";
 
 (async () => {
   try {
@@ -13,4 +14,4 @@ import DaftarHewan from "./DaftarHewanModel.js";
   }
 })();
 
-export { DaftarHewan };
+export { DaftarHewan, DaftarPemilik };
