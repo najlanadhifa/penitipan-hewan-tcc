@@ -2,20 +2,23 @@ import User from "../models/UserModel.js";
 import bcrypt from "bcrypt"; // buat ngehash password
 import jwt from "jsonwebtoken";
 
-export const getUser = async(req, res) => {
+export const getUser = async (req, res) => {
   try {
-    const User = await User.findAll();
-    res.json(User);
+    const users = await User.findAll();
+    res.json(users);
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const Register = async (req, res) => {
   const { username, password } = req.body;
 
-  // Hash Password
-  const hashPassword = await bcrypt.hash(password, 5);
+  const salt = await bcrypt.genSalt();
+
+  // hash Password
+  const hashPassword = await bcrypt.hash(password, salt);
 
   try {
     const data = await User.create({
@@ -55,7 +58,7 @@ export const Login = async (req, res) => {
     const accessToken = jwt.sign(
       { id: user.id, username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
       { id: user.id, username: user.username },
@@ -87,17 +90,18 @@ export const Login = async (req, res) => {
   }
 };
 
+// refresh access token pakai refresh token
 export const refreshToken = async (req, res) => {
   try {
-    // Cookie Validation
+    // cookie validation
     const refreshToken = req.cookies.refreshToken; // Sesuaikan nama cookie
     if (!refreshToken) return res.sendStatus(401); // Unauthorized
 
-    // User Validation
+    // user validation
     const user = await User.findOne({
       where: { refresh_token: refreshToken },
     });
-    if (!user) return res.status(403).json({ message: "User tidak ditemukan" });
+    if (!user) return res.sendStatus(403);
 
     // Verify JWT
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
@@ -105,16 +109,16 @@ export const refreshToken = async (req, res) => {
         return res.status(403).json({ message: "Invalid refresh token" });
       }
 
-      const { id, username } = user; // Pastikan data ini sesuai dengan payload JWT sebelumnya
       const accessToken = jwt.sign(
-        { id, username },
+        { id: user.id, username: user.usernmae },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "15m" }
       );
 
       res.json({ accessToken });
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Terjadi Kesalahan",
       error: error.message,
@@ -122,30 +126,36 @@ export const refreshToken = async (req, res) => {
   }
 };
 
+// Logout user: hapus refresh token di DB dan cookie
 export const logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken; // Sesuaikan nama cookie
     if (!refreshToken) return res.sendStatus(204); // No Content, berarti user sudah logout
 
     // User Validation
-    const data = await User.findOne({
+    const user = await User.findOne({
       where: { refresh_token: refreshToken },
     });
-    if (!data) return res.status(204).json("User Tidak Ditemukan");
+    if (!user) return res.sendStatus(204);
 
     // Mengupdate refresh token menjadi null
-    await User.update({ refresh_token: null }, { where: { id: data.id } });
+    await User.update({ refresh_token: null }, { where: { id: user.id } });
 
     // Menghapus refresh cookie
-    res.clearCookie("refreshToken"); // Sesuaikan nama cookie
-
+    res.clearCookie("refreshToken", {  // Sesuaikan nama cookie
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    
     // Response
-    return res.status(200).json({
+    res.status(200).json({
       message: "Logout Berhasil",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
-      message: "Gagal logout",
+      message: "Terjadi Kesalahan pada server",
       error: error.message,
     });
   }

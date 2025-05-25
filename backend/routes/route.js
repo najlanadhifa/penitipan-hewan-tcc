@@ -1,4 +1,7 @@
 import express from "express";
+
+import { verifyToken } from "../middleware/VerifyToken.js";
+
 import {
   getUser,
   Register,
@@ -6,6 +9,7 @@ import {
   refreshToken,
   logout,
 } from "../controller/UserController.js";
+
 import {
   createHewan,
   getHewan,
@@ -13,6 +17,7 @@ import {
   updateHewan,
   deleteHewan,
 } from "../controller/DaftarHewanController.js";
+
 import {
   createPemilik,
   getPemilik,
@@ -23,8 +28,8 @@ import {
 
 const router = express.Router();
 
-router.get('/User', getUser);
-router.post("/register", Register);
+router.get('/user', verifyToken, getUser);
+router.post("/user", Register);
 router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", logout);

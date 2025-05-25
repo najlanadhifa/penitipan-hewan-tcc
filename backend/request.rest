@@ -1,7 +1,18 @@
-GET http://localhost:5000/User
+GET http://localhost:5000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgxODI2NjIsImV4cCI6MTc0ODE4MzU2Mn0.URvU63ft1lJ85FtqJy43DvlzOkrKmIzOcO2EgxhqWeI
 
 ###
-POST http://localhost:5000/User
+POST http://localhost:5000/user
+Content-Type: application/json 
+Authorization: Bearer <your_access_token>
+
+{
+    "username": "adminkyut123", 
+    "password": "12345"  
+}
+
+###
+POST http://localhost:5000/login
 Content-Type: application/json 
 Authorization: Bearer <your_access_token>
 
@@ -47,3 +58,9 @@ Authorization: Bearer <your_access_token>
     "alamat": "sewon", 
     "email": "dapid@gmail.com"
 }
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout
