@@ -19,6 +19,8 @@ const User = db.define("User", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+},{
+  freezeTableName:true
 });
 
 export default User;

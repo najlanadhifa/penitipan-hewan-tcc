@@ -10,8 +10,8 @@ import DaftarPemilik from "./DaftarPemilikModel.js";
 
     await db.sync({ alter: true });
     console.log("Semua tabel berhasil disinkronisasi.");
-  } catch (err) {
-    console.error("Gagal konek DB:", err);
+  } catch (error) {
+    console.error("Gagal konek DB:", error);
   }
 })();
 

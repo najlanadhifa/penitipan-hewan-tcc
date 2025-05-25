@@ -1,10 +1,13 @@
-POST http://localhost:5000/user
+GET http://localhost:5000/User
+
+###
+POST http://localhost:5000/User
 Content-Type: application/json 
 Authorization: Bearer <your_access_token>
 
 {
     "username": "adminkyut123", 
-    "password": "12345",  
+    "password": "12345"  
 }
 
 ###

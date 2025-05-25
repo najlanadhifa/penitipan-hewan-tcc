@@ -1,6 +1,15 @@
 import User from "../models/UserModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"; // buat ngehash password
 import jwt from "jsonwebtoken";
+
+export const getUser = async(req, res) => {
+  try {
+    const User = await User.findAll();
+    res.json(User);
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const Register = async (req, res) => {
   const { username, password } = req.body;
@@ -10,7 +19,7 @@ export const Register = async (req, res) => {
 
   try {
     const data = await User.create({
-      username,
+      username: username,
       password: hashPassword,
     });
 
