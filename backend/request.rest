@@ -3,9 +3,8 @@ Content-Type: application/json
 Authorization: Bearer <your_access_token>
 
 {
-"username": "adminkyut123", 
-"password": "12345", 
-"keterangan_khusus": "makanan harus fresh", 
+    "username": "adminkyut123", 
+    "password": "12345",  
 }
 
 ###
@@ -14,11 +13,11 @@ Content-Type: application/json
 Authorization: Bearer <your_access_token>
 
 {
-"nama_hewan": "ayam", 
-"bobot_hewan": 15, 
-"keterangan_khusus": "makanan harus fresh", 
-"ras": "ayam petelur", 
-"gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
+    "nama_hewan": "ayam", 
+    "bobot_hewan": 15, 
+    "keterangan_khusus": "makanan harus fresh", 
+    "ras": "ayam petelur", 
+    "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
 }
 
 ###
@@ -27,11 +26,11 @@ Content-Type: application/json
 Authorization: Bearer <your_access_token>
 
 {
-"nama_hewan": "si imhut", 
-"bobot_hewan": 15, 
-"keterangan_khusus": "suka nonton upin ipin", 
-"ras": "ayam malaysia", 
-"gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
+    "nama_hewan": "si imhut", 
+    "bobot_hewan": 15, 
+    "keterangan_khusus": "suka nonton upin ipin", 
+    "ras": "ayam malaysia", 
+    "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
 }
 
 ###
@@ -40,8 +39,8 @@ Content-Type: application/json
 Authorization: Bearer <your_access_token>
 
 {
-"nama_pemilik": "dapid", 
-"no_hp": "08123456789", 
-"alamat": "sewon", 
-"email": "dapid@gmail.com"
+    "nama_pemilik": "dapid", 
+    "no_hp": "08123456789", 
+    "alamat": "sewon", 
+    "email": "dapid@gmail.com"
 }
