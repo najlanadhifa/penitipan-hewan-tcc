@@ -20,6 +20,24 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:5000/user
+Content-Type: application/json 
+
+{
+    "username": "kartika", 
+    "password": "admin"  
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json 
+
+{
+    "username": "kartika", 
+    "password": "admin"  
+}
+
+###
 POST http://localhost:5000/daftarpemilik
 Content-Type: application/json 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjkyNTYsImV4cCI6MTc0ODIzMDE1Nn0.JVQzhroNHf-nBFBpmmDNyRkgWjunSitRO3upk1UG6kA
