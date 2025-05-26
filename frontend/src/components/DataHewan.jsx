@@ -30,8 +30,9 @@ const DataHewan = () => {
   const fetchPemilikData = async () => {
     try {
       const response = await axios.get('http://localhost:5000/daftarpemilik', {
-        withCredentials: true
+        withCredentials: true,
       });
+      console.log('Pemilik data fetched:', response.data);
       setPemilikData(response.data.data || []);
     } catch (error) {
       console.error('Error fetching pemilik data:', error);

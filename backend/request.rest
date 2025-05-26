@@ -37,6 +37,10 @@ Content-Type: application/json
     "password": "admin"  
 }
 
+####
+GET http://localhost:5000/daftarpemilik
+
+
 ###
 POST http://localhost:5000/daftarpemilik
 Content-Type: application/json 

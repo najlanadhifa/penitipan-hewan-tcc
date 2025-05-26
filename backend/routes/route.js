@@ -11,7 +11,6 @@ import {
 } from "../controller/UserController.js";
 
 import {
-  getHewanByPemilik,
   createHewan,
   getHewan,
   getHewanById,
@@ -41,7 +40,7 @@ router.post("/daftarhewan", verifyToken, createHewan);
 router.put("/daftarhewan/:id", verifyToken, updateHewan);
 router.delete("/daftarhewan/:id", verifyToken, deleteHewan);
 
-router.get("/daftarpemilik", verifyToken, getPemilik); 
+router.get("/daftarpemilik", getPemilik); 
 router.get("/daftarpemilik/:id", verifyToken, getPemilikById); 
 router.post("/daftarpemilik", verifyToken, createPemilik);
 router.put("/daftarpemilik/:id", verifyToken, updatePemilik);
