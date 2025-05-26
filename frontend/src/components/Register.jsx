@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import '../css/login.css';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from '../api/axiosInstance.js';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // logika registrasi kamu di sini, misal axios.post('/register', { username, password })
-    console.log('Register:', { username, password });
-    navigate('/login'); // redirect ke login setelah register
-  };
+      try {
+    await axios.post('/user', { username, password });
+    navigate('/login');
+  } catch (error) {
+    console.error('Registrasi gagal:', error);
+  }
+};
 
   return (
     <div className="page-wrapper">

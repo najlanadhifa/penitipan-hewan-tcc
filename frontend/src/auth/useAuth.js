@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import axiosInstance from "../api/axiosInstance";
-import { BASE_URL } from "../utils/utils.js";
+import { BASE_URL } from "../utils/utils";
 
 const useAuth = () => {
   const [accessToken, setAccessToken] = useState(() => {
@@ -18,7 +18,11 @@ const useAuth = () => {
     try {
       const res = await axiosInstance.post(`${BASE_URL}/login`, { username, password });
       const token = res.data.accessToken;
-      saveAccessToken(token);
+
+    // Simpan token ke localStorage dan state di sini
+    localStorage.setItem("accessToken", token);  // <-- Ini tempatnya
+    setAccessToken(token);
+    
       return true;
     } catch (err) {
       throw err;

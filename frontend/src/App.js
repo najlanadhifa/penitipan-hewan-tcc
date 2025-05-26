@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import AxiosInterceptor from './api/axiosInterceptor';
 
 import Login from './components/Login';
 import Register from './components/Register';
@@ -10,6 +11,8 @@ import Home from './components/Home';
 
 function App() {
   return (
+    <>
+    <AxiosInterceptor />
     <Routes>
       <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="/login" element={<Login />} />
@@ -19,6 +22,7 @@ function App() {
       <Route path="/datapemilik" element={<DataPemilik />} />
       <Route path="*" element={<h2 style={{textAlign: "center", marginTop: 50}}>404 - Halaman tidak ditemukan</h2>} />
     </Routes>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import '../css/detail.css';
 
 const DataPemilik = () => {
@@ -25,7 +25,7 @@ const DataPemilik = () => {
 
   const fetchPemilikData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/daftarpemilik/${id}`, {
+      const response = await axiosInstance.get(`http://localhost:5000/daftarpemilik/${id}`, {
         withCredentials: true
       });
       const pemilik = response.data.data;
@@ -55,12 +55,12 @@ const DataPemilik = () => {
 
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:5000/daftarpemilik/${id}`, formData, {
+        await axiosInstance.put(`http://localhost:5000/daftarpemilik/${id}`, formData, {
           withCredentials: true
         });
         alert('Data pemilik berhasil diperbarui!');
       } else {
-        await axios.post('http://localhost:5000/daftarpemilik', formData, {
+        await axiosInstance.post('http://localhost:5000/daftarpemilik', formData, {
           withCredentials: true
         });
         alert('Data pemilik berhasil ditambahkan!');
