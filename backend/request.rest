@@ -1,5 +1,4 @@
 GET http://localhost:5000/user
-Authorization: Bearer 
 
 ###
 POST http://localhost:5000/user
@@ -67,8 +66,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hb
 
 ###
 POST http://localhost:5000/daftarhewan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJrYXJ0aWthIiwiaWF0IjoxNzQ4MjY4MTk3LCJleHAiOjE3NDgyNjkwOTd9.eNtWCebGCUyOAIpsbjyN37gFDjSKjfPE7l49KJIVvqY
 Content-Type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjg5NjQsImV4cCI6MTc0ODIyOTg2NH0.q5XP-0FHKUGppU4Z-x3U5S2Y213aKgh65HI6rXDLg4Q
 
 {
     "nama_hewan": "cici", 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import '../css/detail.css';
 
 const DataHewan = () => {
@@ -29,7 +29,7 @@ const DataHewan = () => {
 
   const fetchPemilikData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/daftarpemilik', {
+      const response = await axiosInstance.get('http://localhost:5000/daftarpemilik', {
         withCredentials: true,
       });
       console.log('Pemilik data fetched:', response.data);
@@ -41,7 +41,7 @@ const DataHewan = () => {
 
   const fetchHewanData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/daftarhewan/${id}`, {
+      const response = await axiosInstance.get(`http://localhost:5000/daftarhewan/${id}`, {
         withCredentials: true
       });
       const hewan = response.data.data;
@@ -71,14 +71,16 @@ const DataHewan = () => {
     e.preventDefault();
     setLoading(true);
 
+    console.log("Token sekarang:", localStorage.getItem("accessToken"));
+
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:5000/daftarhewan/${id}`, formData, {
+        await axiosInstance.put(`http://localhost:5000/daftarhewan/${id}`, formData, {
           withCredentials: true
         });
         alert('Data hewan berhasil diperbarui!');
       } else {
-        await axios.post('http://localhost:5000/daftarhewan', formData, {
+        await axiosInstance.post('http://localhost:5000/daftarhewan', formData, {
           withCredentials: true
         });
         alert('Data hewan berhasil ditambahkan!');
