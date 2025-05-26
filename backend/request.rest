@@ -1,10 +1,9 @@
 GET http://localhost:5000/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgxODI2NjIsImV4cCI6MTc0ODE4MzU2Mn0.URvU63ft1lJ85FtqJy43DvlzOkrKmIzOcO2EgxhqWeI
+Authorization: Bearer 
 
 ###
 POST http://localhost:5000/user
 Content-Type: application/json 
-Authorization: Bearer <your_access_token>
 
 {
     "username": "adminkyut123", 
@@ -14,7 +13,6 @@ Authorization: Bearer <your_access_token>
 ###
 POST http://localhost:5000/login
 Content-Type: application/json 
-Authorization: Bearer <your_access_token>
 
 {
     "username": "adminkyut123", 
@@ -22,45 +20,62 @@ Authorization: Bearer <your_access_token>
 }
 
 ###
-POST http://localhost:5000/daftarhewan
+POST http://localhost:5000/daftarpemilik
 Content-Type: application/json 
-Authorization: Bearer <your_access_token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjkyNTYsImV4cCI6MTc0ODIzMDE1Nn0.JVQzhroNHf-nBFBpmmDNyRkgWjunSitRO3upk1UG6kA
 
 {
-    "nama_hewan": "ayam", 
-    "bobot_hewan": 15, 
-    "keterangan_khusus": "makanan harus fresh", 
-    "ras": "ayam petelur", 
-    "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
+    "nama_pemilik": "kartika", 
+    "no_hp": "0888100200", 
+    "alamat": "janti", 
+    "email": "karkar@gmail.com"
 }
 
 ###
-PUT http://localhost:5000/daftarhewan/2
+POST http://localhost:5000/daftarpemilik
 Content-Type: application/json 
-Authorization: Bearer <your_access_token>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjkyNTYsImV4cCI6MTc0ODIzMDE1Nn0.JVQzhroNHf-nBFBpmmDNyRkgWjunSitRO3upk1UG6kA
+
+{
+    "nama_pemilik": "difa", 
+    "no_hp": "012345678", 
+    "alamat": "sewon", 
+    "email": "dipadipu@gmail.com"
+}
+
+###
+POST http://localhost:5000/daftarhewan
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjg5NjQsImV4cCI6MTc0ODIyOTg2NH0.q5XP-0FHKUGppU4Z-x3U5S2Y213aKgh65HI6rXDLg4Q
+
+{
+    "nama_hewan": "cici", 
+    "bobot_hewan": 3, 
+    "keterangan_khusus": "harus pakai treat", 
+    "ras": "kucing siamese", 
+    "gambar": "",
+    "pemilikId": 1
+}
+
+###
+PUT http://localhost:5000/daftarhewan/1
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbmt5dXQxMjMiLCJpYXQiOjE3NDgyMjg5NjQsImV4cCI6MTc0ODIyOTg2NH0.q5XP-0FHKUGppU4Z-x3U5S2Y213aKgh65HI6rXDLg4Q 
 
 {
     "nama_hewan": "si imhut", 
     "bobot_hewan": 15, 
     "keterangan_khusus": "suka nonton upin ipin", 
     "ras": "ayam malaysia", 
-    "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp"
-}
-
-###
-POST http://localhost:5000/daftarpemilik
-Content-Type: application/json 
-Authorization: Bearer <your_access_token>
-
-{
-    "nama_pemilik": "dapid", 
-    "no_hp": "08123456789", 
-    "alamat": "sewon", 
-    "email": "dapid@gmail.com"
+    "gambar": "https://www.putraperkasa.co.id/wp-content/uploads/2023/11/Ayam-New-Hampshire-001.webp",
+    "pemilikId": 2
 }
 
 ###
 GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/daftarhewan/1
 
 ###
 DELETE http://localhost:5000/logout

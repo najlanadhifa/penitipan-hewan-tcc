@@ -49,7 +49,7 @@ function Login() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="adminkyut123"
+              placeholder="masukkan username"
               required
               autoComplete="username"
             />
@@ -60,7 +60,7 @@ function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="**********"
+              placeholder="masukkan password"
               required
               autoComplete="current-password"
             />

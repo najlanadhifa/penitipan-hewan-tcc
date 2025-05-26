@@ -2,6 +2,7 @@ import User from "../models/UserModel.js";
 import bcrypt from "bcrypt"; // buat ngehash password
 import jwt from "jsonwebtoken";
 
+// Ambil semua user
 export const getUser = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -12,17 +13,22 @@ export const getUser = async (req, res) => {
   }
 };
 
+// Register
 export const Register = async (req, res) => {
   const { username, password } = req.body;
 
-  const salt = await bcrypt.genSalt();
-
-  // hash Password
-  const hashPassword = await bcrypt.hash(password, salt);
-
   try {
+    // Cek apakah username sudah terdaftar
+    const existingUser = await User.findOne({ where: { username } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Username sudah terdaftar" });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(password, salt);
+
     const data = await User.create({
-      username: username,
+      username,
       password: hashPassword,
     });
 
@@ -38,6 +44,7 @@ export const Register = async (req, res) => {
   }
 };
 
+// Login
 export const Login = async (req, res) => {
   const { username, password } = req.body;
 
@@ -54,7 +61,7 @@ export const Login = async (req, res) => {
       return res.status(401).json({ message: "Password salah" });
     }
 
-    // JWT Sign
+    // Buat access token dan refresh token
     const accessToken = jwt.sign(
       { id: user.id, username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
@@ -71,13 +78,11 @@ export const Login = async (req, res) => {
       { where: { id: user.id } }
     );
 
-    // Set Cookie
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-    // Response
     return res.status(200).json({
       accessToken,
       message: "Login berhasil",
@@ -90,27 +95,22 @@ export const Login = async (req, res) => {
   }
 };
 
-// refresh access token pakai refresh token
+// Refresh access token
 export const refreshToken = async (req, res) => {
   try {
-    // cookie validation
-    const refreshToken = req.cookies.refreshToken; // Sesuaikan nama cookie
-    if (!refreshToken) return res.sendStatus(401); // Unauthorized
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(401);
 
-    // user validation
     const user = await User.findOne({
       where: { refresh_token: refreshToken },
     });
     if (!user) return res.sendStatus(403);
 
-    // Verify JWT
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: "Invalid refresh token" });
-      }
+      if (err) return res.status(403).json({ message: "Invalid refresh token" });
 
       const accessToken = jwt.sign(
-        { id: user.id, username: user.usernmae },
+        { id: user.id, username: user.username }, 
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "15m" }
       );
@@ -126,29 +126,25 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-// Logout user: hapus refresh token di DB dan cookie
+// Logout
 export const logout = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken; // Sesuaikan nama cookie
-    if (!refreshToken) return res.sendStatus(204); // No Content, berarti user sudah logout
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(204);
 
-    // User Validation
     const user = await User.findOne({
       where: { refresh_token: refreshToken },
     });
     if (!user) return res.sendStatus(204);
 
-    // Mengupdate refresh token menjadi null
     await User.update({ refresh_token: null }, { where: { id: user.id } });
 
-    // Menghapus refresh cookie
-    res.clearCookie("refreshToken", {  // Sesuaikan nama cookie
+    res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    
-    // Response
+
     res.status(200).json({
       message: "Logout Berhasil",
     });

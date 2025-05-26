@@ -17,15 +17,23 @@ const DaftarHewan = db.define("daftar_hewan", {
   },
   keterangan_khusus: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
   ras: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   gambar: {
     type: DataTypes.STRING,
-    allowNull: true, // nama file atau URL gambar
+    allowNull: false,
+  },
+  pemilikId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  userId: {  
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 }, {
   freezeTableName: true,
