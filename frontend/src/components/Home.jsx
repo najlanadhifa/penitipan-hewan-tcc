@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/home.css';
 
 const Home = () => {
   const [hewanData, setHewanData] = useState([]);
   const [pemilikData, setPemilikData] = useState([]);
-  const [showHewanForm, setShowHewanForm] = useState(false);
-  const [showPemilikForm, setShowPemilikForm] = useState(false);
-  const [editingHewan, setEditingHewan] = useState(null);
-  const [editingPemilik, setEditingPemilik] = useState(null);
-  const [hewanForm, setHewanForm] = useState({
-    nama_hewan: '',
-    bobot_hewan: '',
-    keterangan_khusus: '',
-    ras: '',
-    gambar: '',
-    pemilikId: ''
-  });
-  const [pemilikForm, setPemilikForm] = useState({
-    nama_pemilik: '',
-    no_hp: '',
-    alamat: '',
-    email: ''
-  });
+  const navigate = useNavigate();
 
   // Fetch data saat komponen dimount
   useEffect(() => {
@@ -52,56 +36,6 @@ const Home = () => {
     }
   };
 
-  // Handle Hewan Form
-  const handleHewanInputChange = (e) => {
-    setHewanForm({
-      ...hewanForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleHewanSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editingHewan) {
-        await axios.put(`http://localhost:5000/daftarhewan/${editingHewan.id}`, hewanForm, {
-          withCredentials: true
-        });
-      } else {
-        await axios.post('http://localhost:5000/daftarhewan', hewanForm, {
-          withCredentials: true
-        });
-      }
-      setHewanForm({
-        nama_hewan: '',
-        bobot_hewan: '',
-        keterangan_khusus: '',
-        ras: '',
-        gambar: '',
-        pemilikId: ''
-      });
-      setShowHewanForm(false);
-      setEditingHewan(null);
-      fetchHewanData();
-    } catch (error) {
-      console.error('Error saving hewan:', error);
-      alert('Error menyimpan data hewan');
-    }
-  };
-
-  const handleEditHewan = (hewan) => {
-    setEditingHewan(hewan);
-    setHewanForm({
-      nama_hewan: hewan.nama_hewan,
-      bobot_hewan: hewan.bobot_hewan,
-      keterangan_khusus: hewan.keterangan_khusus,
-      ras: hewan.ras,
-      gambar: hewan.gambar,
-      pemilikId: hewan.pemilikId
-    });
-    setShowHewanForm(true);
-  };
-
   const handleDeleteHewan = async (id) => {
     if (window.confirm('Apakah Anda yakin ingin menghapus data hewan ini?')) {
       try {
@@ -114,52 +48,6 @@ const Home = () => {
         alert('Error menghapus data hewan');
       }
     }
-  };
-
-  // Handle Pemilik Form
-  const handlePemilikInputChange = (e) => {
-    setPemilikForm({
-      ...pemilikForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handlePemilikSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editingPemilik) {
-        await axios.put(`http://localhost:5000/daftarpemilik/${editingPemilik.id}`, pemilikForm, {
-          withCredentials: true
-        });
-      } else {
-        await axios.post('http://localhost:5000/daftarpemilik', pemilikForm, {
-          withCredentials: true
-        });
-      }
-      setPemilikForm({
-        nama_pemilik: '',
-        no_hp: '',
-        alamat: '',
-        email: ''
-      });
-      setShowPemilikForm(false);
-      setEditingPemilik(null);
-      fetchPemilikData();
-    } catch (error) {
-      console.error('Error saving pemilik:', error);
-      alert('Error menyimpan data pemilik');
-    }
-  };
-
-  const handleEditPemilik = (pemilik) => {
-    setEditingPemilik(pemilik);
-    setPemilikForm({
-      nama_pemilik: pemilik.nama_pemilik,
-      no_hp: pemilik.no_hp,
-      alamat: pemilik.alamat,
-      email: pemilik.email
-    });
-    setShowPemilikForm(true);
   };
 
   const handleDeletePemilik = async (id) => {
@@ -181,8 +69,7 @@ const Home = () => {
       await axios.delete('http://localhost:5000/logout', {
         withCredentials: true
       });
-      // Redirect ke login atau refresh page
-      window.location.href = '/login';
+      navigate('/login');
     } catch (error) {
       console.error('Error logout:', error);
     }
@@ -202,18 +89,7 @@ const Home = () => {
         <div className="data-section">
           <button 
             className="add-btn"
-            onClick={() => {
-              setShowHewanForm(true);
-              setEditingHewan(null);
-              setHewanForm({
-                nama_hewan: '',
-                bobot_hewan: '',
-                keterangan_khusus: '',
-                ras: '',
-                gambar: '',
-                pemilikId: ''
-              });
-            }}
+            onClick={() => navigate('/datahewan')}
           >
             Tambah Data Hewan
           </button>
@@ -236,14 +112,24 @@ const Home = () => {
                   <tr key={hewan.id}>
                     <td>{hewan.id}</td>
                     <td>{hewan.nama_hewan}</td>
-                    <td>{hewan.bobot_hewan}</td>
+                    <td>{hewan.bobot_hewan} kg</td>
                     <td>{hewan.keterangan_khusus}</td>
                     <td>{hewan.ras}</td>
-                    <td>{hewan.gambar}</td>
+                    <td>
+                      {hewan.gambar ? (
+                        <img 
+                          src={hewan.gambar} 
+                          alt={hewan.nama_hewan}
+                          className="table-image"
+                        />
+                      ) : (
+                        'No Image'
+                      )}
+                    </td>
                     <td>
                       <button 
                         className="edit-btn"
-                        onClick={() => handleEditHewan(hewan)}
+                        onClick={() => navigate(`/datahewan/${hewan.id}`)}
                       >
                         Edit
                       </button>
@@ -256,6 +142,13 @@ const Home = () => {
                     </td>
                   </tr>
                 ))}
+                {hewanData.length === 0 && (
+                  <tr>
+                    <td colSpan="7" className="no-data">
+                      Belum ada data hewan
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -265,16 +158,7 @@ const Home = () => {
         <div className="data-section">
           <button 
             className="add-btn"
-            onClick={() => {
-              setShowPemilikForm(true);
-              setEditingPemilik(null);
-              setPemilikForm({
-                nama_pemilik: '',
-                no_hp: '',
-                alamat: '',
-                email: ''
-              });
-            }}
+            onClick={() => navigate('/datapemilik')}
           >
             Tambah Data Pemilik
           </button>
@@ -302,7 +186,7 @@ const Home = () => {
                     <td>
                       <button 
                         className="edit-btn"
-                        onClick={() => handleEditPemilik(pemilik)}
+                        onClick={() => navigate(`/datapemilik/${pemilik.id}`)}
                       >
                         Edit
                       </button>
@@ -315,135 +199,18 @@ const Home = () => {
                     </td>
                   </tr>
                 ))}
+                {pemilikData.length === 0 && (
+                  <tr>
+                    <td colSpan="6" className="no-data">
+                      Belum ada data pemilik
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
-      {/* Modal Form Hewan */}
-      {showHewanForm && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editingHewan ? 'Edit Data Hewan' : 'Tambah Data Hewan'}</h3>
-            <form onSubmit={handleHewanSubmit}>
-              <input
-                type="text"
-                name="nama_hewan"
-                placeholder="Nama Hewan"
-                value={hewanForm.nama_hewan}
-                onChange={handleHewanInputChange}
-                required
-              />
-              <input
-                type="number"
-                name="bobot_hewan"
-                placeholder="Bobot Hewan"
-                value={hewanForm.bobot_hewan}
-                onChange={handleHewanInputChange}
-                required
-              />
-              <textarea
-                name="keterangan_khusus"
-                placeholder="Keterangan Khusus"
-                value={hewanForm.keterangan_khusus}
-                onChange={handleHewanInputChange}
-              />
-              <input
-                type="text"
-                name="ras"
-                placeholder="Ras"
-                value={hewanForm.ras}
-                onChange={handleHewanInputChange}
-              />
-              <input
-                type="text"
-                name="gambar"
-                placeholder="URL Gambar"
-                value={hewanForm.gambar}
-                onChange={handleHewanInputChange}
-              />
-              <select
-                name="pemilikId"
-                value={hewanForm.pemilikId}
-                onChange={handleHewanInputChange}
-                required
-              >
-                <option value="">Pilih Pemilik</option>
-                {pemilikData.map((pemilik) => (
-                  <option key={pemilik.id} value={pemilik.id}>
-                    {pemilik.nama_pemilik}
-                  </option>
-                ))}
-              </select>
-              <div className="modal-buttons">
-                <button type="submit">
-                  {editingHewan ? 'Update' : 'Simpan'}
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => setShowHewanForm(false)}
-                >
-                  Batal
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Modal Form Pemilik */}
-      {showPemilikForm && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editingPemilik ? 'Edit Data Pemilik' : 'Tambah Data Pemilik'}</h3>
-            <form onSubmit={handlePemilikSubmit}>
-              <input
-                type="text"
-                name="nama_pemilik"
-                placeholder="Nama Pemilik"
-                value={pemilikForm.nama_pemilik}
-                onChange={handlePemilikInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="no_hp"
-                placeholder="No HP"
-                value={pemilikForm.no_hp}
-                onChange={handlePemilikInputChange}
-                required
-              />
-              <textarea
-                name="alamat"
-                placeholder="Alamat"
-                value={pemilikForm.alamat}
-                onChange={handlePemilikInputChange}
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={pemilikForm.email}
-                onChange={handlePemilikInputChange}
-                required
-              />
-              <div className="modal-buttons">
-                <button type="submit">
-                  {editingPemilik ? 'Update' : 'Simpan'}
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => setShowPemilikForm(false)}
-                >
-                  Batal
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
