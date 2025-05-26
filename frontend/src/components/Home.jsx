@@ -100,7 +100,7 @@ const Home = () => {
                 <tr>
                   <th>Id</th>
                   <th>Nama Hewan</th>
-                  <th>Bobot</th>
+                  <th>Berat</th>
                   <th>Keterangan</th>
                   <th>Ras</th>
                   <th>Gambar</th>

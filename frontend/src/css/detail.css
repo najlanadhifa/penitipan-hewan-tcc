@@ -9,7 +9,6 @@
 }
 
 .data-container::before {
-  content: "Penitipan Hewan Corner.";
   position: absolute;
   top: 60px;
   left: 60px;
