@@ -8,7 +8,6 @@ import DataHewan from './components/DataHewan';
 import DataPemilik from './components/DataPemilik';
 import Home from './components/Home';
 
-
 function App() {
   return (
     <>

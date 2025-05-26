@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance'; // import axiosInstance bukan axios
 import '../css/home.css';
 
 const Home = () => {
@@ -8,7 +8,6 @@ const Home = () => {
   const [pemilikData, setPemilikData] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch data saat komponen dimount
   useEffect(() => {
     fetchHewanData();
     fetchPemilikData();
@@ -16,9 +15,7 @@ const Home = () => {
 
   const fetchHewanData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/daftarhewan', {
-        withCredentials: true
-      });
+      const response = await axiosInstance.get('/daftarhewan');
       setHewanData(response.data.data || []);
     } catch (error) {
       console.error('Error fetching hewan data:', error);
@@ -27,9 +24,7 @@ const Home = () => {
 
   const fetchPemilikData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/daftarpemilik', {
-        withCredentials: true
-      });
+      const response = await axiosInstance.get('/daftarpemilik');
       setPemilikData(response.data.data || []);
     } catch (error) {
       console.error('Error fetching pemilik data:', error);
@@ -39,9 +34,7 @@ const Home = () => {
   const handleDeleteHewan = async (id) => {
     if (window.confirm('Apakah Anda yakin ingin menghapus data hewan ini?')) {
       try {
-        await axios.delete(`http://localhost:5000/daftarhewan/${id}`, {
-          withCredentials: true
-        });
+        await axiosInstance.delete(`/daftarhewan/${id}`);
         fetchHewanData();
       } catch (error) {
         console.error('Error deleting hewan:', error);
@@ -53,9 +46,7 @@ const Home = () => {
   const handleDeletePemilik = async (id) => {
     if (window.confirm('Apakah Anda yakin ingin menghapus data pemilik ini?')) {
       try {
-        await axios.delete(`http://localhost:5000/daftarpemilik/${id}`, {
-          withCredentials: true
-        });
+        await axiosInstance.delete(`/daftarpemilik/${id}`);
         fetchPemilikData();
       } catch (error) {
         console.error('Error deleting pemilik:', error);
@@ -66,9 +57,8 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.delete('http://localhost:5000/logout', {
-        withCredentials: true
-      });
+      await axiosInstance.delete('/logout');
+      localStorage.removeItem('accessToken'); // hapus token juga saat logout
       navigate('/login');
     } catch (error) {
       console.error('Error logout:', error);
@@ -79,9 +69,7 @@ const Home = () => {
     <div className="home-container">
       <div className="header">
         <h1>Penitipan Hewan Corner.</h1>
-        <button className="logout-btn" onClick={handleLogout}>
-          Keluar
-        </button>
+        <button className="logout-btn" onClick={handleLogout}>Keluar</button>
       </div>
 
       <div className="content">
