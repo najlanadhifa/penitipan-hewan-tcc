@@ -14,7 +14,7 @@ import "dotenv/config";
 // });
 
 const db = new Sequelize('hewan', 'root', '', {
-    host: '34.45.182.8', 
+    host: 'localhost', 
     dialect: 'mysql'
 });
 
